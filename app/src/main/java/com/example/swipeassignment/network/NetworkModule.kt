@@ -1,5 +1,6 @@
 package com.example.swipeassignment.network
 
+import com.example.swipeassignment.BuildConfig
 import com.example.swipeassignment.network.interceptor.NetworkInterceptor
 import com.example.swipeassignment.network.interceptor.NetworkStateChecker
 import com.example.swipeassignment.network.service.SwipeApiService
