@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.swipeassignment"
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -21,11 +21,34 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "environment"
+    productFlavors {
+        uat {
+            dimension "environment"
+            buildConfigField "String", "BASE_URL", "\"https://app.getswipe.in\""
+            versionNameSuffix "-uat"
+            applicationIdSuffix ".uat"
+            resValue "string", "app_name", "Swipe Assignment - uat"
+        }
+
+        prod {
+            dimension "environment"
+            buildConfigField "String", "BASE_URL", "\"https://app.getswipe.in\""
+            resValue "string", "app_name", "Swipe Assignment"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -36,6 +59,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 
