@@ -12,14 +12,12 @@ class GlideBindingAdapter {
     companion object{
         @SuppressLint("CheckResult")
         @JvmStatic
-        @BindingAdapter("imageUrl", "placeholder", requireAll = false)
+        @BindingAdapter("imageUrl", requireAll = false)
         fun setImageWithPlaceholder(
             imageView: ImageView,
-            imageUrl: String?,
-            placeholder: Drawable,
+            imageUrl: String,
         ) {
             val requestManager = Glide.with(imageView.context).load(imageUrl)
-                .placeholder(placeholder)
                 .apply(if (imageUrl == null) RequestOptions().fitCenter() else RequestOptions().centerCrop())
                 .transition(
                     DrawableTransitionOptions.withCrossFade()

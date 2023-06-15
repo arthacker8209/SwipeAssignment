@@ -24,7 +24,7 @@ class ProductAdapter(private val onItemClick: (ProductListing) -> Unit)
                     newItem: ProductListing
                 ): Boolean {
                     return oldItem.productName == newItem.productName && oldItem.productType ==
-                            newItem.productType && oldItem.price == newItem.price && oldItem.tax == newItem.tax
+                            newItem.productType
                 }
             }
     }

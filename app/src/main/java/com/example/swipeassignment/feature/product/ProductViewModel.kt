@@ -1,5 +1,6 @@
 package com.example.swipeassignment.feature.product
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,12 +28,15 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch(dispatcherProvider.io) {
             when(val result = repository.fetchProductListings()){
                 is NetworkResource.Error -> {
-                    _productLiveData.value = ViewState.Error(result.errorResponse.retrofitErrorResponse.toString())
+                    withContext(dispatcherProvider.main){
+                        Log.d("DEEPAK",result.errorResponse.toString())
+                        _productLiveData.value = ViewState.Error(result.errorResponse.toString())
+                    }
                 }
                 is NetworkResource.Success -> {
                     withContext(dispatcherProvider.main){
-                        val productListing = result.data
-                        _productLiveData.value = ViewState.Success(productListing)
+                        Log.d("DEEPAK",result.data.toString())
+                        _productLiveData.value = ViewState.Success(result.data)
                     }
                 }
             }

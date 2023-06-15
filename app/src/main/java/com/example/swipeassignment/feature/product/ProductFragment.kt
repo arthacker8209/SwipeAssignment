@@ -62,7 +62,9 @@ class ProductFragment : Fragment() {
                 is ViewState.Loading -> {
                    // showLoadingSpinner()
                 }
-                is ViewState.Success -> showProducts(it.data)
+                is ViewState.Success -> {
+                    showProducts(it.data)
+                }
                 is ViewState.Error -> showErrorMessage(it.errorMessage)
             }
         }
@@ -70,7 +72,7 @@ class ProductFragment : Fragment() {
 
     private fun showErrorMessage(errorMessage: String) {
         //dismissLoadingSpinner()
-        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "HElloooooooo", Toast.LENGTH_SHORT).show()
     }
 
     private fun showProducts(productEntities: List<ProductListing>) {
