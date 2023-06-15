@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.example.swipeassignment.R
 
 class GlideBindingAdapter {
     companion object{
@@ -18,7 +19,8 @@ class GlideBindingAdapter {
             imageUrl: String,
         ) {
             val requestManager = Glide.with(imageView.context).load(imageUrl)
-                .apply(if (imageUrl == null) RequestOptions().fitCenter() else RequestOptions().centerCrop())
+                .apply(RequestOptions().centerCrop())
+                .placeholder(R.drawable.box)
                 .transition(
                     DrawableTransitionOptions.withCrossFade()
                 )

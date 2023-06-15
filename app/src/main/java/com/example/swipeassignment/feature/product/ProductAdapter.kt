@@ -11,6 +11,8 @@ import com.example.swipeassignment.network.models.ProductListing
 class ProductAdapter(private val onItemClick: (ProductListing) -> Unit)
     : ListAdapter<ProductListing, ProductAdapter.ViewHolder>(DIFF_UTIL) {
 
+    var originalList: List<ProductListing> = emptyList()
+    private var filteredList: MutableList<ProductListing> = mutableListOf()
     companion object {
         private val DIFF_UTIL =
             object : DiffUtil.ItemCallback<ProductListing>() {
@@ -54,5 +56,21 @@ class ProductAdapter(private val onItemClick: (ProductListing) -> Unit)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+    fun filterList(keyword: String) {
+        filteredList.clear()
+        if (keyword.isNotEmpty()) {
+            val searchKeyword = keyword.lowercase()
+            originalList.forEach { item ->
+                if (item.productName.lowercase().contains(searchKeyword) ||
+                    item.productType.lowercase().contains(searchKeyword)
+                ) {
+                    filteredList.add(item)
+                }
+            }
+        } else {
+            filteredList.addAll(originalList)
+        }
+        submitList(filteredList)
     }
 }
