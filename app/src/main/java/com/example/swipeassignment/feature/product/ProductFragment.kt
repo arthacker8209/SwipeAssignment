@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -15,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.swipeassignment.R
 import com.example.swipeassignment.common.ViewState
 import com.example.swipeassignment.databinding.FragmentProductBinding
 import com.example.swipeassignment.network.models.ProductListing
@@ -30,6 +33,7 @@ class ProductFragment : Fragment() {
         const val TAG = "ProductFragment"
         fun newInstance() = ProductFragment()
     }
+    var isFabVisible = true
     private lateinit var productList: List<ProductListing>
     private val searchDelayMillis = 1000L
     private var searchJob: Job? = null
@@ -68,6 +72,24 @@ class ProductFragment : Fragment() {
             binding.toolbarTitle.isCursorVisible = true
             binding.crossImageView.visibility = View.VISIBLE
         }
+
+        binding.rvProduct.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 && isFabVisible) {
+                    // Scroll down: Hide the FloatingActionButton with animation
+                    val shrinkAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.shrink_fab)
+                    binding.fab.startAnimation(shrinkAnimation)
+                    binding.fab.hide()
+                    isFabVisible = false
+                } else if (dy < 0 && !isFabVisible) {
+                    // Scroll up: Show the FloatingActionButton with animation
+                    val expandAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.expand_fab)
+                    binding.fab.startAnimation(expandAnimation)
+                    binding.fab.show()
+                    isFabVisible = true
+                }
+            }
+        })
 
         binding.toolbarTitle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
