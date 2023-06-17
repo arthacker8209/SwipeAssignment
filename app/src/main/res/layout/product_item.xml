@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     tools:text="Name: "
-                    android:text="@{productModel.productName}"
+                    android:text="@{`Name: `+productModel.productName}"
                     android:textSize="18sp"
                     />
 
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     tools:text="Price: "
-                    android:text="Price"
+                    android:text="@{`Price: `+productModel.price.toString()}"
                     android:textSize="18sp"
                     />
 
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     tools:text="Product Type: "
-                    android:text="@{productModel.productType}"
+                    android:text="@{`Product Type: `+ productModel.productType}"
                     android:textSize="18sp"
                     />
 
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     tools:text="Tax: "
-                    android:text="Tax"
+                    android:text="@{`Tax: ` + productModel.tax.toString()}"
                     android:textSize="18sp"
                     />
 
