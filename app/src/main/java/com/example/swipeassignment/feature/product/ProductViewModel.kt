@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.swipeassignment.common.CoroutinesDispatcherProvider
 import com.example.swipeassignment.common.ViewState
-import com.example.swipeassignment.network.models.ProductListing
+import com.example.swipeassignment.network.models.Product
 import com.example.swipeassignment.network.responsehandler.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,8 +20,8 @@ class ProductViewModel @Inject constructor(
     private val repository: ProductContract.Repository
 ) : ViewModel() {
 
-    private val _productLiveData = MutableLiveData<ViewState<List<ProductListing>>>()
-    val productLiveData: LiveData<ViewState<List<ProductListing>>> get() = _productLiveData
+    private val _productLiveData = MutableLiveData<ViewState<List<Product>>>()
+    val productLiveData: LiveData<ViewState<List<Product>>> get() = _productLiveData
 
     fun fetchProducts(){
         _productLiveData.value = ViewState.Loading

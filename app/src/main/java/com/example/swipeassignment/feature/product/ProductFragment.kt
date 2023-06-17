@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.swipeassignment.R
 import com.example.swipeassignment.common.ViewState
 import com.example.swipeassignment.databinding.FragmentProductBinding
-import com.example.swipeassignment.network.models.ProductListing
+import com.example.swipeassignment.feature.addproduct.AddProduct
+import com.example.swipeassignment.network.models.Product
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -34,7 +34,7 @@ class ProductFragment : Fragment() {
         fun newInstance() = ProductFragment()
     }
     var isFabVisible = true
-    private lateinit var productList: List<ProductListing>
+    private lateinit var productList: List<Product>
     private val searchDelayMillis = 1000L
     private var searchJob: Job? = null
 
@@ -61,6 +61,15 @@ class ProductFragment : Fragment() {
         setupRecyclerView()
         observeProducts()
         viewModel.fetchProducts()
+
+        binding.fab.setOnClickListener {
+            val fragment = AddProduct.newInstance()
+            val fragmentManager = requireActivity().supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.fvMain, fragment)
+            fragmentTransaction.commit()
+        }
+
         binding.crossImageView.setOnClickListener {
             binding.toolbarTitle.setText("")
             binding.crossImageView.visibility = View.INVISIBLE
@@ -93,10 +102,8 @@ class ProductFragment : Fragment() {
 
         binding.toolbarTitle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // No implementation needed
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // No implementation needed
             }
             override fun afterTextChanged(s: Editable?) {
                 val keyword = s.toString().trim()
@@ -118,7 +125,7 @@ class ProductFragment : Fragment() {
         viewModel.productLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewState.Loading -> {
-                   // showLoadingSpinner()
+                   showLoadingSpinner()
                 }
                 is ViewState.Success -> {
                     showProducts(it.data)
@@ -128,19 +135,26 @@ class ProductFragment : Fragment() {
         }
     }
 
-    private fun showErrorMessage(errorMessage: String) {
-        //dismissLoadingSpinner()
+    private fun showLoadingSpinner() {
+        binding.progressView.visibility = View.VISIBLE
     }
 
-    private fun showProducts(productEntities: List<ProductListing>) {
-       // dismissLoadingSpinner()
+    private fun showErrorMessage(errorMessage: String) {
+        dismissLoadingSpinner()
+    }
+
+    private fun dismissLoadingSpinner() {
+       binding.progressView.visibility = View.GONE
+    }
+
+    private fun showProducts(productEntities: List<Product>) {
+        dismissLoadingSpinner()
         productList = productEntities
         setProductList(productList)
     }
 
-    private fun onProductItemClick(productEntity: ProductListing) {
+    private fun onProductItemClick(productEntity: Product) {
         Toast.makeText(requireContext(),"Clicked",Toast.LENGTH_SHORT).show()
-        //startActivity(CommentsActivity.getIntent(this, issueEntity))
     }
 
     private fun hideKeyboard(context: Context?, target: View?) {
@@ -174,7 +188,7 @@ class ProductFragment : Fragment() {
         }
     }
 
-    private fun setProductList(productList: List<ProductListing>) {
+    private fun setProductList(productList: List<Product>) {
         this.productList = productList
         productAdapter.submitList(productList)
         productAdapter.originalList = productList

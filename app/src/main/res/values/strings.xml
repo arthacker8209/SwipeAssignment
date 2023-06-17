@@ -2,4 +2,9 @@
 
     <string name="sample_text">Deepak</string>
     <string name="add_product">Add Product</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_type">Product Type</string>
+    <string name="product_price">Product Price</string>
+    <string name="product_tax">Product Tax</string>
+    <string name="upload_image">Upload Image</string>
 </resources>

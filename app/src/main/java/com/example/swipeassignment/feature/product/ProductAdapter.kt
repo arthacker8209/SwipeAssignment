@@ -6,24 +6,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swipeassignment.databinding.ProductItemBinding
-import com.example.swipeassignment.network.models.ProductListing
+import com.example.swipeassignment.network.models.Product
 
-class ProductAdapter(private val onItemClick: (ProductListing) -> Unit)
-    : ListAdapter<ProductListing, ProductAdapter.ViewHolder>(DIFF_UTIL) {
+class ProductAdapter(private val onItemClick: (Product) -> Unit)
+    : ListAdapter<Product, ProductAdapter.ViewHolder>(DIFF_UTIL) {
 
-    var originalList: List<ProductListing> = emptyList()
-    private var filteredList: MutableList<ProductListing> = mutableListOf()
+    var originalList: List<Product> = emptyList()
+    private var filteredList: MutableList<Product> = mutableListOf()
     companion object {
         private val DIFF_UTIL =
-            object : DiffUtil.ItemCallback<ProductListing>() {
+            object : DiffUtil.ItemCallback<Product>() {
                 override fun areItemsTheSame(
-                    oldItem: ProductListing,
-                    newItem: ProductListing
+                    oldItem: Product,
+                    newItem: Product
                 ) = oldItem.productName == newItem.productName
 
                 override fun areContentsTheSame(
-                    oldItem: ProductListing,
-                    newItem: ProductListing
+                    oldItem: Product,
+                    newItem: Product
                 ): Boolean {
                     return oldItem.productName == newItem.productName && oldItem.productType ==
                             newItem.productType
@@ -42,7 +42,7 @@ class ProductAdapter(private val onItemClick: (ProductListing) -> Unit)
             }
         }
 
-        fun bind(productEntity: ProductListing) {
+        fun bind(productEntity: Product) {
             binding.productModel = productEntity
             binding.executePendingBindings()
         }

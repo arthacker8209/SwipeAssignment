@@ -5,7 +5,7 @@
     <data>
         <variable
             name="productModel"
-            type="com.example.swipeassignment.network.models.ProductListing" />
+            type="com.example.swipeassignment.network.models.Product" />
     </data>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cvProduct"
